@@ -1,8 +1,19 @@
 {
-  "name": "static-website-boilerplate",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/fabioper/static-website.git",
-  "author": "Fábio Pereira <fabiopereira.fps@gmail.com>",
-  "license": "MIT"
+    "name": "static-website-boilerplate",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/fabioper/static-website.git",
+    "author": "Fábio Pereira <fabiopereira.fps@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "start": "webpack-dev-server"
+    },
+    "devDependencies": {
+        "handlebars": "^4.1.2",
+        "handlebars-loader": "^1.7.1",
+        "html-webpack-plugin": "^3.2.0",
+        "webpack": "^4.39.2",
+        "webpack-cli": "^3.3.6",
+        "webpack-dev-server": "^3.8.0"
+    }
 }
