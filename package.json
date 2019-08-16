@@ -1,0 +1,8 @@
+{
+  "name": "static-website-boilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/fabioper/static-website.git",
+  "author": "Fábio Pereira <fabiopereira.fps@gmail.com>",
+  "license": "MIT"
+}
