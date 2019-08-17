@@ -29,10 +29,12 @@ const config = {
         rules: [
             {
                 test: /\.hbs$/,
-                use: {
-                    loader: 'handlebars-loader',
-                    options: { inlineRequires: '/assets/img' }
-                }
+                use: [
+                    {
+                        loader: 'handlebars-loader',
+                        options: { inlineRequires: '/assets/img' }
+                    }
+                ]
             },
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
@@ -69,7 +71,7 @@ const config = {
                             svgo: {
                                 removeTitle: true,
                                 convertColors: { shorthex: false },
-                                convertPathData: false
+                                convertPathData: true
                             }
                         }
                     }
