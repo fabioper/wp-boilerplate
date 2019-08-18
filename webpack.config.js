@@ -32,7 +32,7 @@ const config = {
                 use: [
                     {
                         loader: 'handlebars-loader',
-                        options: { inlineRequires: '/assets/img' }
+                        options: { inlineRequires: '/assets/images' }
                     },
                     {
                         loader: 'string-replace-loader',
@@ -90,7 +90,7 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        ...generateTemplates(require('./routes'))
+        ...generateTemplates(require('./.default-imports'))
     ],
     resolve: {
         extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
