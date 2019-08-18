@@ -42,3 +42,39 @@ Executa o [`webpack`](https://github.com/webpack/webpack) gerando uma pasta `/di
 Exclui a pasta `/dist`. Este comando é executado toda vez que é executado o comando `yarn start`, para excluir qualquer resquício de builds anteriores.
 
 > Caso não fosse utilizado, geraria erro no [`webpack-dev-server`](https://github.com/webpack/webpack-dev-server) ao servir os arquivos localmente, pois teríamos uma pasta física `/dist` e uma pasta _in-memory_.
+
+## Features
+
+### Otimização de imagens
+
+Todas as imagens utilizadas referenciadas tanto nos arquivos `.hbs` quanto no `.scss` serão otimizadas.
+
+#### Conversão em `base 64`
+
+As imagens que forem menor que **30 KB** serão convertidas para `base64` e adicionadas inline ao HTML.
+
+Exemplo:
+
+```hbs
+<!-- index.hbs -->
+<img src="./src/assets/images/imagem-com-menos-de-30-kb.jpg" alt="Imagem menor que 30 kb">
+```
+
+Será transformado em:
+
+> In progress
+
+#### SVG inline
+
+Ao fazer referência a uma imagens/ícone `.svg` utilizando tag `img`, utilizando o atributo `markup-inline`, a imagem será convertida para inline no HTML.
+
+Exemplo:
+
+```hbs
+<!-- index.hbs -->
+<img markup-inline src="./src/assets/images/imagem.svg" alt="Imagem qualquer SVG">
+```
+
+Será transformado em:
+
+> In progress
