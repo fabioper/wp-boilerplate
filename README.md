@@ -15,10 +15,10 @@
 ```bash
 ├── src/
 ├──── assets/
-|    ├── fonts/       # Aqui ficarão qualquer eventuais fonts utilizadas
-|    └── images/      # Aqui ficarão as imagens utilizadas durante o desenvolvimento
+|    ├── fonts/         # Aqui ficarão qualquer eventuais fonts utilizadas
+|    └── images/        # Aqui ficarão as imagens utilizadas durante o desenvolvimento
 ├──── scripts/
-|    └── app.js       # Este arquivo é obrigatório, pois será procurado pelo webpack
+|    └── app.js         # Este arquivo é obrigatório, pois será procurado pelo webpack
 ├──── styles/
 |    └── main.scss
 ├──── templates/
