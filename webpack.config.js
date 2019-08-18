@@ -33,6 +33,14 @@ const config = {
                     {
                         loader: 'handlebars-loader',
                         options: { inlineRequires: '/assets/img' }
+                    },
+                    {
+                        loader: 'string-replace-loader',
+                        options: {
+                            search: '.hbs',
+                            replace: '.html',
+                            flags: ''
+                        }
                     }
                 ]
             },
