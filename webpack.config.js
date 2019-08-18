@@ -48,6 +48,12 @@ const config = {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 use: [
                     {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    },
+                    {
                         loader: 'file-loader',
                         options: {
                             name(file) {

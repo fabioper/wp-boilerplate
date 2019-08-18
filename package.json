@@ -20,6 +20,7 @@
         "image-webpack-loader": "^5.0.0",
         "markup-inline-loader": "^0.2.2",
         "string-replace-loader": "^2.2.0",
+        "url-loader": "^2.1.0",
         "webpack": "^4.39.2",
         "webpack-cli": "^3.3.6",
         "webpack-dev-server": "^3.8.0"
