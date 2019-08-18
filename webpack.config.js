@@ -50,12 +50,7 @@ const config = {
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: 8192
-                        }
-                    },
-                    {
-                        loader: 'file-loader',
-                        options: {
+                            limit: 10000,
                             name(file) {
                                 if (process.env.NODE_ENV !== 'production') {
                                     return 'assets/img/[name].[ext]';
