@@ -78,3 +78,13 @@ Exemplo:
 Será transformado em:
 
 > In progress
+
+### Suporte a [`SASS/SCSS`](https://sass-lang.com/)
+
+O arquivo principal pra utilização do `.scss` é o `main.scss`. A partir desse arquivo, pode ser chamado qualquer outro arquivo `.scss`, utilizando `@import`. O processamento do código `.scss` contém:
+
+-   `autoprefixer`
+-   Minificação
+-   Injeção automática no HTML
+
+### Suporte ao ES15+
