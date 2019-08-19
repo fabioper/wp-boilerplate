@@ -15,8 +15,6 @@
     - [Suporte ao ES15+](#suporte-ao-es15)
     - [Favicons](#favicons)
 
----
-
 ## Tecnologias usadas:
 
 | Tecnologia                                                                              | Descrição                                                                                                                                                                                                                                          |
