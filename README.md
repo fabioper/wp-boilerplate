@@ -1,5 +1,7 @@
 # Static Website Boilerplate
 
+
+
 - [Static Website Boilerplate](#static-website-boilerplate)
   - [Tecnologias usadas:](#tecnologias-usadas)
   - [Estrutura de pastas](#estrutura-de-pastas)
@@ -15,6 +17,8 @@
     - [Suporte ao ES15+](#suporte-ao-es15)
     - [Favicons](#favicons)
 
+
+
 ## Tecnologias usadas:
 
 | Tecnologia                                                                              | Descrição                                                                                                                                                                                                                                          |
@@ -26,6 +30,8 @@
 | [Yarn](https://yarnpkg.com/en/)                                                         | Fast, reliable, and secure dependency management.                                                                                                                                                                                                  |
 | [ESlint](https://eslint.org/)                                                           | A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript. Maintain your code quality with ease.                                                                                                            |
 | [Stylelint](https://stylelint.io/)                                                      | A mighty, modern linter that helps you avoid errors and enforce conventions in your styles.                                                                                                                                                        |
+
+
 
 ## Estrutura de pastas
 
@@ -45,6 +51,8 @@
 └────── partials/       # Trechos de HTML/Handlebars que poderão ser reutilizados
 ```
 
+
+
 ## NPM Scripts
 
 ### `yarn start`
@@ -60,6 +68,8 @@ Executa o [`webpack`](https://github.com/webpack/webpack) gerando uma pasta `/di
 Exclui a pasta `/dist`. Este comando é executado toda vez que é executado o comando `yarn start`, para excluir qualquer resquício de builds anteriores.
 
 > Caso não fosse utilizado, geraria erro no [`webpack-dev-server`](https://github.com/webpack/webpack-dev-server) ao servir os arquivos localmente, pois teríamos uma pasta física `/dist` e uma pasta _in-memory_.
+
+
 
 ## Features
 
