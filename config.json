@@ -1,0 +1,9 @@
+{
+    "name": "Static Website Boilerplate",
+    "description": "My static website boilerplate",
+    "author": "Me",
+    "background": "#ddd",
+    "theme_color": "#333",
+    "template_format": ".hbs",
+    "logo": "src/assets/images/logo.svg"
+}
