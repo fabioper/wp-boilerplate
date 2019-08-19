@@ -10,6 +10,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const appConfig = require('./config.json');
 const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
+const InjectPlugin = require('webpack-inject-plugin').default;
 
 const templatesPages = fs.readdirSync(
     path.resolve(__dirname, 'src', 'templates', 'pages'),
@@ -138,6 +139,7 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new InjectPlugin(() => 'import \'styles/main.scss\';'),
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css',
