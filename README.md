@@ -1,5 +1,19 @@
 # Static Website Boilerplate
 
+- [Static Website Boilerplate](#static-website-boilerplate)
+  - [Tecnologias usadas:](#tecnologias-usadas)
+  - [Estrutura de pastas](#estrutura-de-pastas)
+  - [NPM Scripts](#npm-scripts)
+    - [`yarn start`](#yarn-start)
+    - [`yarn build`](#yarn-build)
+    - [`yarn clean`](#yarn-clean)
+  - [Features](#features)
+    - [Otimização de imagens](#otimiza%c3%a7%c3%a3o-de-imagens)
+      - [Conversão em `base 64`](#convers%c3%a3o-em-base-64)
+      - [SVG inline](#svg-inline)
+    - [Suporte a `SASS/SCSS`](#suporte-a-sassscss)
+    - [Suporte ao ES15+](#suporte-ao-es15)
+
 ## Tecnologias usadas:
 
 -   [Handlebars](https://handlebarsjs.com/)
