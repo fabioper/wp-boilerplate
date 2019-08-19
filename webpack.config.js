@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const changeExtensionToHtml = filename => filename.replace(/\.(.*)/, '.html');
 
@@ -132,7 +133,17 @@ const config = {
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
-        ...generateTemplates(require('./.default-imports'))
+        ...generateTemplates(require('./.default-imports')),
+        new FaviconsWebpackPlugin({
+            logo: path.resolve(
+                __dirname,
+                'src',
+                'assets',
+                'images',
+                'logo.svg'
+            ),
+            devMode: 'webapp'
+        })
     ],
     resolve: {
         extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
