@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const changeExtensionToHtml = filename => filename.replace(/\.(.*)/, '.html');
 
@@ -155,7 +156,7 @@ const config = {
     },
     devtool: 'inline-source-map',
     optimization: {
-        minimizer: [new UglifyJsPlugin()]
+        minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin({})]
     },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
