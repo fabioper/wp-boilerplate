@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const changeExtensionToHtml = filename => filename.replace(/\.(.*)/, '.html');
 
@@ -27,6 +29,41 @@ const config = {
     },
     module: {
         rules: [
+            {
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {}
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: [require('autoprefixer')()]
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {}
+                    }
+                ]
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
             {
                 test: /\.hbs$/,
                 use: [
@@ -90,16 +127,25 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+            ignoreOrder: false
+        }),
         ...generateTemplates(require('./.default-imports'))
     ],
     resolve: {
         extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
         alias: {
-            Assets: path.resolve(__dirname, 'src/assets/'),
-            Scripts: path.resolve(__dirname, 'src/scripts/')
+            assets: path.resolve(__dirname, 'src/assets/'),
+            styles: path.resolve(__dirname, 'src/styles/'),
+            scripts: path.resolve(__dirname, 'src/scripts/')
         }
     },
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
+    optimization: {
+        minimizer: [new UglifyJsPlugin()]
+    },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,

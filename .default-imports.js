@@ -1,10 +1,3 @@
-// const routes = [
-//     {
-//         title: 'Static Website Boilerplate',
-//         template: 'index.hbs'
-//     }
-// ];
-
 const fs = require('fs');
 const path = require('path');
 
