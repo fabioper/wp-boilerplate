@@ -109,6 +109,8 @@ O arquivo principal pra utilização do `.scss` é o `main.scss`. A partir desse
 
 ### Suporte ao ES15+
 
+É possível utilizar todas as novas features do `ES15` e suas versões posteriores.
+
 ### Favicons
 
 O [`webpack`](https://github.com/webpack/webpack) irá procurar por um arquivo `logo.svg` na pasta `src/assets/images/` e irá gerar automáticamente todos os favicons necessários para os navegadores e dispositivos móveis.
