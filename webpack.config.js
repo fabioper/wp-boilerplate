@@ -153,7 +153,17 @@ const config = {
                 appName: appConfig.name,
                 appDescription: appConfig.description,
                 background: appConfig.background,
-                theme_color: appConfig.theme_color
+                theme_color: appConfig.theme_color,
+                icons: {
+                    android: false,
+                    appleIcon: false,
+                    appleStartup: false,
+                    coast: false,
+                    favicons: true,
+                    firefox: false,
+                    windows: false,
+                    yandex: false
+                }
             }
         })
     ],
