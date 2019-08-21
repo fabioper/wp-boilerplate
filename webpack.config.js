@@ -12,16 +12,35 @@ const appConfig = require('./config.json');
 const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
 const InjectPlugin = require('webpack-inject-plugin').default;
 
-const templatesPages = fs.readdirSync(
-    path.resolve(__dirname, 'src', 'templates', 'pages'),
-    'utf-8'
-);
+let phpTemplates = [];
+
+const templatesPages = fs
+    .readdirSync(path.resolve(__dirname, 'src', 'templates', 'pages'), 'utf-8')
+    .filter(template => {
+        if (path.extname(template) !== '.php') {
+            return template;
+        }
+
+        phpTemplates = [...phpTemplates, template];
+    });
 
 const generateTemplates = templates =>
     templates.map(
         template =>
             new HtmlWebpackPlugin({
                 filename: template.replace(/\.(.*)/, '.html'),
+                template: path.resolve(templatesPath, template),
+                meta: {
+                    description: appConfig.description,
+                    author: appConfig.author
+                }
+            })
+    );
+const generatePhpTemplates = templates =>
+    templates.map(
+        template =>
+            new HtmlWebpackPlugin({
+                filename: template.replace(/\.(.*)/, '.php'),
                 template: path.resolve(templatesPath, template),
                 meta: {
                     description: appConfig.description,
@@ -146,6 +165,7 @@ const config = {
             ignoreOrder: false
         }),
         ...generateTemplates(templatesPages),
+        ...generatePhpTemplates(phpTemplates),
         new FaviconsWebpackPlugin({
             devMode: 'webapp',
             logo: path.resolve(__dirname, appConfig.logo),
