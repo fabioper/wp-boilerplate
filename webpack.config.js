@@ -66,8 +66,12 @@ const config = {
                         loader: 'postcss-loader',
                         options: {
                             plugins: [
+                                require('postcss-fixes')(),
                                 require('autoprefixer')(),
-                                require('cssnano')()
+                                require('cssnano')({
+                                    safe: true, // I would recommend using cssnano only in safe mode
+                                    calc: false // calc is no longer necessary, as it is already done by postcss-fixes due to precision rounding reasons
+                                })
                             ]
                         }
                     },
