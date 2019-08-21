@@ -147,7 +147,7 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new InjectPlugin(() => 'import \'styles/main.scss\';'),
+        new InjectPlugin(() => "import 'styles/main.scss';"),
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css',
@@ -164,26 +164,13 @@ const config = {
                 background: appConfig.background,
                 theme_color: appConfig.theme_color,
                 icons: {
-                    android: false,
-                    appleIcon: false,
-                    appleStartup: false,
-                    coast: false,
-                    favicons: true,
-                    firefox: false,
-                    windows: false,
-                    yandex: false
+                    ...appConfig.favicons
                 }
             }
         })
     ],
     resolve: {
-        extensions: [
-            '.wasm',
-            '.mjs',
-            '.js',
-            '.jsx',
-            '.json'
-        ],
+        extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
         alias: {
             assets: path.resolve(__dirname, 'src/assets/'),
             styles: path.resolve(__dirname, 'src/styles/'),
