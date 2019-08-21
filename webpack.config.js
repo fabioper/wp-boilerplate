@@ -184,6 +184,15 @@ const config = {
             scripts: path.resolve(__dirname, 'src/scripts/')
         }
     },
+    stats: {
+        all: false,
+        modules: true,
+        maxModules: 0,
+        errors: true,
+        warnings: true,
+        moduleTrace: true,
+        errorDetails: true
+    },
     devtool: 'inline-source-map',
     optimization: {
         minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin({})]
