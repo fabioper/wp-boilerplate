@@ -12,23 +12,16 @@ const appConfig = require('./config.json');
 const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
 const InjectPlugin = require('webpack-inject-plugin').default;
 
-let phpTemplates = [];
+const templatesPages = fs.readdirSync(
+    path.resolve(__dirname, 'src', 'templates', 'pages'),
+    'utf-8'
+);
 
-const templatesPages = fs
-    .readdirSync(path.resolve(__dirname, 'src', 'templates', 'pages'), 'utf-8')
-    .filter(template => {
-        if (path.extname(template) !== '.php') {
-            return template;
-        }
-
-        phpTemplates = [...phpTemplates, template];
-    });
-
-const generateTemplates = templates =>
+const convertTemplatesTo = extension => templates =>
     templates.map(
         template =>
             new HtmlWebpackPlugin({
-                filename: template.replace(/\.(.*)/, '.html'),
+                filename: template.replace(/\.(.*)/, extension),
                 template: path.resolve(templatesPath, template),
                 meta: {
                     description: appConfig.description,
@@ -36,18 +29,14 @@ const generateTemplates = templates =>
                 }
             })
     );
-const generatePhpTemplates = templates =>
-    templates.map(
-        template =>
-            new HtmlWebpackPlugin({
-                filename: template.replace(/\.(.*)/, '.php'),
-                template: path.resolve(templatesPath, template),
-                meta: {
-                    description: appConfig.description,
-                    author: appConfig.author
-                }
-            })
-    );
+
+const filterBy = (extension, templates) =>
+    templates.filter(template => path.extname(template) === extension);
+
+const transformHandlebarsToHTML = templates =>
+    convertTemplatesTo('.html')(filterBy('.hbs', templates));
+const transformPHP = templates =>
+    convertTemplatesTo('.php')(filterBy('.php', templates));
 
 const config = {
     mode: 'development',
@@ -164,8 +153,8 @@ const config = {
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
-        ...generateTemplates(templatesPages),
-        ...generatePhpTemplates(phpTemplates),
+        ...transformHandlebarsToHTML(templatesPages),
+        ...transformPHP(templatesPages),
         new FaviconsWebpackPlugin({
             devMode: 'webapp',
             logo: path.resolve(__dirname, appConfig.logo),
