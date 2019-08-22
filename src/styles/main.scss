@@ -55,10 +55,24 @@ h1 {
 
 .logo {
     margin: 0 auto 1.5rem;
-    display: block;
     max-width: 10rem;
     animation: floating 1s cubic-bezier(0.47, 0.13, 0.63, 0.95) both infinite;
     transition: all 1s cubic-bezier(0.47, 0.13, 0.63, 0.95);
+}
+
+.logo__wrapper {
+    &:after {
+        content: '';
+        display: block;
+        width: 6rem;
+        height: 1rem;
+        background: rgb(47, 51, 47);
+        border-radius: 50%;
+        margin: auto;
+        animation: floating_shadow 1s cubic-bezier(0.47, 0.13, 0.63, 0.95) both
+            infinite;
+        transition: all 1s cubic-bezier(0.47, 0.13, 0.63, 0.95);
+    }
 }
 
 @keyframes floating {
@@ -70,5 +84,17 @@ h1 {
     }
     100% {
         transform: translateY(0);
+    }
+}
+
+@keyframes floating_shadow {
+    0% {
+        transform: scale(0.2);
+    }
+    50% {
+        transform: scale(0.5);
+    }
+    100% {
+        transform: scale(0.2);
     }
 }
