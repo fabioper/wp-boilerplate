@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable id-length */
 const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,10 +5,11 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const appConfig = require('./config.json');
 const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
 const InjectPlugin = require('webpack-inject-plugin').default;
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const appConfig = require('./config.json');
 
 const templatesPages = fs.readdirSync(
     path.resolve(__dirname, 'src', 'templates', 'pages'),
@@ -35,6 +34,7 @@ const filterBy = (extension, templates) =>
 
 const transformHandlebarsToHTML = templates =>
     convertTemplatesTo('.html')(filterBy('.hbs', templates));
+
 const transformPHP = templates =>
     convertTemplatesTo('.php')(filterBy('.php', templates));
 
@@ -52,15 +52,10 @@ const config = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {}
-                    },
+                    { loader: MiniCssExtractPlugin.loader },
                     {
                         loader: 'css-loader',
-                        options: {
-                            sourceMap: true
-                        }
+                        options: { sourceMap: true }
                     },
                     {
                         loader: 'postcss-loader',
@@ -68,17 +63,11 @@ const config = {
                             plugins: [
                                 require('postcss-fixes')(),
                                 require('autoprefixer')(),
-                                require('cssnano')({
-                                    safe: true, // I would recommend using cssnano only in safe mode
-                                    calc: false // calc is no longer necessary, as it is already done by postcss-fixes due to precision rounding reasons
-                                })
+                                require('cssnano')({ safe: true, calc: false })
                             ]
                         }
                     },
-                    {
-                        loader: 'sass-loader',
-                        options: {}
-                    }
+                    { loader: 'sass-loader' }
                 ]
             },
             {
@@ -138,9 +127,7 @@ const config = {
                             gifsicle: {
                                 interlaced: false
                             },
-                            webp: {
-                                quality: 75
-                            },
+                            webp: { quality: 75 },
                             svgo: {
                                 removeTitle: true,
                                 convertColors: { shorthex: false },
@@ -204,7 +191,6 @@ const config = {
         watchContentBase: true,
         open: true,
         historyApiFallback: true
-        // writeToDisk: true
     }
 };
 

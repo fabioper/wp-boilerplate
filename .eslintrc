@@ -52,7 +52,7 @@
         "getter-return": "error",
         "global-require": "warn",
         "handle-callback-err": "warn",
-        "id-length": ["warn", { "min": 2, "max": 20, "exceptions": ["i"] }],
+        "id-length": "off",
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "key-spacing": [
             "warn",
