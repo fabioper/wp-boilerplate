@@ -5,7 +5,7 @@
     "background": "#ddd",
     "theme_color": "#333",
     "template_format": ".hbs",
-    "logo": "src/assets/images/logo.svg",
+    "logo": "src/assets/images/logo_fantasma.svg",
     "favicons": {
         "android": false,
         "appleIcon": false,
