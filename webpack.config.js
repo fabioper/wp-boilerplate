@@ -185,15 +185,22 @@ const config = {
     devtool: 'inline-source-map',
     optimization: {
         minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin({})]
-    },
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 3000,
-        watchContentBase: true,
-        open: true,
-        historyApiFallback: true
     }
 };
+
+config.devServer = {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 3000,
+    watchContentBase: true,
+    open: true,
+    historyApiFallback: true
+};
+
+if (appConfig.apache) {
+    config.devServer = {
+        ...config.devServer
+    };
+}
 
 module.exports = config;
