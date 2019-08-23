@@ -83,7 +83,7 @@ const config = {
                 }
             },
             {
-                test: /\.hbs$/,
+                test: /\.(hbs|php)$/,
                 use: [
                     {
                         loader: 'handlebars-loader',
@@ -198,8 +198,17 @@ config.devServer = {
 };
 
 if (appConfig.apache) {
+    // config.output.path = 'localhost/static-website/dist';
+    config.output.publicPath = 'localhost/static-website';
+
     config.devServer = {
-        ...config.devServer
+        ...config.devServer,
+        contentBase: 'localhost/static-website',
+        writeToDisk: true,
+        proxy: {
+            '/': 'http://localhost/static-website/dist',
+            changeOrigin: true
+        }
     };
 }
 
