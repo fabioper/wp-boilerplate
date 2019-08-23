@@ -28,8 +28,8 @@ html {
 body {
     font-size: 1.6rem;
     font-family: $font-family;
-    background-color: rgb(239, 247, 238);
-    color: rgb(92, 97, 91);
+    background-color: rgb(247, 244, 250);
+    color: rgb(93, 91, 97);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -90,14 +90,14 @@ h1 {
 @keyframes floating_shadow {
     0% {
         transform: scale(0.25);
-        background: rgb(220, 230, 219);
+        background: rgb(225, 219, 230);
     }
     50% {
         transform: scale(0.5);
-        background: rgb(209, 218, 208);
+        background: rgb(215, 208, 218);
     }
     100% {
         transform: scale(0.25);
-        background: rgb(220, 230, 219);
+        background: rgb(225, 219, 230);
     }
 }
