@@ -39,7 +39,6 @@ const transformPHP = templates =>
     convertTemplatesTo('.php')(filterBy('.php', templates));
 
 const config = {
-    mode: 'development',
     target: 'web',
     entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
     output: {

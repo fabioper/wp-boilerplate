@@ -6,7 +6,7 @@
     "theme_color": "#333",
     "template_format": ".hbs",
     "logo": "src/assets/images/logo_fantasma.svg",
-    "apache": false,
+    "apache": true,
     "favicons": {
         "android": false,
         "appleIcon": false,
