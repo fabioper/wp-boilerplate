@@ -7,6 +7,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
 const InjectPlugin = require('webpack-inject-plugin').default;
+
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const appConfig = require('./config.json');
