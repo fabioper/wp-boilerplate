@@ -52,7 +52,9 @@ const config = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    { loader: MiniCssExtractPlugin.loader },
+                    {
+                        loader: MiniCssExtractPlugin.loader
+                    },
                     {
                         loader: 'css-loader',
                         options: { sourceMap: true }
@@ -143,7 +145,7 @@ const config = {
         new CleanWebpackPlugin(),
         new InjectPlugin(() => "import 'styles/main.scss';"),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
+            filename: 'styles.css',
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
