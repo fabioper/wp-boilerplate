@@ -64,9 +64,9 @@ h1 {
     &:after {
         content: '';
         display: block;
-        width: 6rem;
-        height: 1rem;
-        background: rgb(197, 206, 196);
+        width: 10rem;
+        height: 1.2rem;
+        background: rgb(220, 230, 219);
         border-radius: 50%;
         margin: 1.5rem auto 0;
         animation: floating_shadow 1s cubic-bezier(0.47, 0.13, 0.63, 0.95) both
@@ -89,12 +89,15 @@ h1 {
 
 @keyframes floating_shadow {
     0% {
-        transform: scale(0.2);
+        transform: scale(0.25);
+        background: rgb(220, 230, 219);
     }
     50% {
         transform: scale(0.5);
+        background: rgb(209, 218, 208);
     }
     100% {
-        transform: scale(0.2);
+        transform: scale(0.25);
+        background: rgb(220, 230, 219);
     }
 }
