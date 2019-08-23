@@ -29,6 +29,8 @@ body {
     font-size: 1.6rem;
     font-family: $font-family;
     background-color: rgb(247, 244, 250);
+    background-attachment: fixed;
+    background-blend-mode: lighten;
     color: rgb(93, 91, 97);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -73,6 +75,13 @@ h1 {
             infinite;
         transition: all 1s cubic-bezier(0.47, 0.13, 0.63, 0.95);
     }
+}
+
+.logo__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 @keyframes floating {
