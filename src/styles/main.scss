@@ -84,6 +84,31 @@ h1 {
     flex-direction: column;
 }
 
+p {
+    max-width: 45rem;
+    line-height: 2;
+    text-align: center;
+}
+
+code {
+    padding: 0.2rem 0.8rem;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgb(239, 229, 241);
+    color: #ff5363;
+    font-size: 1.4rem;
+    transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+a {
+    text-decoration: none;
+
+    &:hover code {
+        background: #ff5363;
+        color: #fff;
+    }
+}
+
 @keyframes floating {
     0% {
         transform: translateY(0);
