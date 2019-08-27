@@ -69,7 +69,25 @@ const config = {
                             ]
                         }
                     },
-                    { loader: 'sass-loader' }
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            data: `
+/*!
+    Theme Name: ${appConfig.theme.name}
+    Theme URI: ${appConfig.theme.uri}
+    Author: ${appConfig.theme.author}
+    Author URI: ${appConfig.theme.author_uri}
+    Description: ${appConfig.theme.description}
+    Version: ${appConfig.theme.version}
+    License: ${appConfig.theme.license}
+    License URI: ${appConfig.theme.license_uri}
+    Text Domain: ${appConfig.theme.text_domain}
+    Tags: ${appConfig.theme.tags}
+*/
+`
+                        }
+                    }
                 ]
             },
             {
