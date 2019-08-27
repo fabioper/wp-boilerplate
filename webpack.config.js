@@ -90,6 +90,24 @@ const config = {
                         options: { inlineRequires: '/assets/images' }
                     },
                     {
+                        loader: 'markup-inline-loader',
+                        options: {
+                            svgo: {
+                                plugins: [
+                                    {
+                                        removeTitle: true
+                                    },
+                                    {
+                                        removeUselessStrokeAndFill: false
+                                    },
+                                    {
+                                        removeUnknownsAndDefaults: false
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
                         loader: 'string-replace-loader',
                         options: {
                             search: '.hbs',

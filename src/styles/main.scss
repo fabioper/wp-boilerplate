@@ -60,6 +60,8 @@ h1 {
     max-width: 10rem;
     animation: floating 1s cubic-bezier(0.47, 0.13, 0.63, 0.95) both infinite;
     transition: all 1s cubic-bezier(0.47, 0.13, 0.63, 0.95);
+    height: auto;
+    width: auto;
 }
 
 .logo__wrapper {
