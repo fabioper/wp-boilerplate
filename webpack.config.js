@@ -216,7 +216,18 @@ const config = {
         errors: true,
         warnings: true,
         moduleTrace: true,
-        errorDetails: true
+        assetsSort: 'field',
+        cached: true,
+        colors: true,
+        logging: 'info',
+        modulesSort: 'field',
+        outputPath: true,
+        source: true,
+        publicPath: true,
+        entrypoints: true,
+        builtAt: true,
+        errorDetails: true,
+        assets: true
     },
     devtool: 'inline-source-map',
     optimization: {

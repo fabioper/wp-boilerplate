@@ -46,6 +46,11 @@ body {
     justify-content: center;
     flex-direction: column;
     height: 100%;
+
+    @media (max-width: 549px) {
+        height: auto;
+        padding-top: 3rem;
+    }
 }
 
 h1 {
