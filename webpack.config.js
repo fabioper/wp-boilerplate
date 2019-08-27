@@ -7,6 +7,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
 const InjectPlugin = require('webpack-inject-plugin').default;
+
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const appConfig = require('./config.json');
@@ -39,7 +40,6 @@ const transformPHP = templates =>
     convertTemplatesTo('.php')(filterBy('.php', templates));
 
 const config = {
-    mode: 'development',
     target: 'web',
     entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
     output: {
@@ -83,7 +83,7 @@ const config = {
                 }
             },
             {
-                test: /\.hbs$/,
+                test: /\.(hbs|php)$/,
                 use: [
                     {
                         loader: 'handlebars-loader',
@@ -216,8 +216,17 @@ config.devServer = {
 };
 
 if (appConfig.apache) {
+    // config.output.path = 'localhost/static-website/dist';
+    config.output.publicPath = 'localhost/static-website';
+
     config.devServer = {
-        ...config.devServer
+        ...config.devServer,
+        contentBase: 'localhost/static-website',
+        writeToDisk: true,
+        proxy: {
+            '/': 'http://localhost/static-website/dist',
+            changeOrigin: true
+        }
     };
 }
 

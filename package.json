@@ -7,8 +7,8 @@
     "license": "MIT",
     "scripts": {
         "prestart": "yarn clean",
-        "start": "webpack-dev-server",
-        "build": "webpack",
+        "start": "webpack-dev-server --mode development",
+        "build": "webpack --mode production",
         "clean": "trash ./dist"
     },
     "devDependencies": {

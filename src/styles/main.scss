@@ -137,3 +137,18 @@ a {
         background: rgb(225, 219, 230);
     }
 }
+
+h2 {
+    margin: 3rem auto 0;
+    color: rgb(139, 139, 139);
+    font-weight: 300;
+}
+
+blockquote {
+    padding: 1.5rem 2rem;
+    background: rgba(226, 221, 233, 0.274);
+    color: rgb(109, 109, 109);
+    margin: 2rem;
+    border-left: 3px solid #ff5363;
+    border-radius: 3px;
+}

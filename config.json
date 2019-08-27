@@ -4,9 +4,8 @@
     "author": "Me",
     "background": "#ddd",
     "theme_color": "#333",
-    "template_format": ".hbs",
     "logo": "src/assets/images/logo_fantasma.svg",
-    "apache": true,
+    "apache": false,
     "favicons": {
         "android": false,
         "appleIcon": false,
