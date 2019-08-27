@@ -12,7 +12,7 @@
         "author": "Me",
         "author_uri": "http://mywebsite.com",
         "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi tenetur maiores quam libero pariatur ea quae laborum labore error neque?",
-        "version": 1.0,
+        "version": "1.0",
         "license": "GNU General Public License v2 or later",
         "license_uri": "http://www.gnu.org/licenses/gpl-2.0.html",
         "text_domain": "staticwebsite",
