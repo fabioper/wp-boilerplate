@@ -44,8 +44,8 @@ const config = {
     entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
-        publicPath: '/'
+        filename: '[name].js'
+        // publicPath: '/'
     },
     module: {
         rules: [
@@ -217,14 +217,14 @@ config.devServer = {
 
 if (appConfig.apache) {
     // config.output.path = 'localhost/static-website/dist';
-    config.output.publicPath = 'localhost/static-website';
+    config.output.publicPath = 'localhost/' + path.basename(__dirname);
 
     config.devServer = {
         ...config.devServer,
-        contentBase: 'localhost/static-website',
+        contentBase: 'localhost/' + path.basename(__dirname),
         writeToDisk: true,
         proxy: {
-            '/': 'http://localhost/static-website/dist',
+            '/': 'http://localhost/' + path.basename(__dirname) + '/dist',
             changeOrigin: true
         }
     };
