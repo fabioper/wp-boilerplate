@@ -178,7 +178,6 @@ const config = {
         ]
     },
     plugins: [
-        
         new InjectPlugin(() => "import 'styles/main.scss';"),
         new MiniCssExtractPlugin({
             filename: 'style.css',
@@ -266,6 +265,7 @@ if (appConfig.apache) {
 if (appConfig.wordpress) {
     config.output.path = __dirname;
     config.devServer.contentBase = __dirname;
+    config.output.filename = path.relative(__dirname, 'scripts/[name].js');
 }
 
 module.exports = config;

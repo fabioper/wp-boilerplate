@@ -1,5 +1,5 @@
 {
-    "name": "static-website-boilerplate",
+    "name": "static-website-starter",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "https://github.com/fabioper/static-website.git",
@@ -8,8 +8,9 @@
     "scripts": {
         "prestart": "yarn clean",
         "start": "webpack-dev-server --mode development",
-        "start:wp": "webpack --watch",
+        "wp:start": "webpack --mode development --watch",
         "build": "webpack --mode production",
+        "wp:build": "yarn build",
         "clean": "trash ./dist"
     },
     "devDependencies": {
