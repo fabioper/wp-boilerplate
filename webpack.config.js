@@ -181,7 +181,7 @@ const config = {
         new CleanWebpackPlugin(),
         new InjectPlugin(() => "import 'styles/main.scss';"),
         new MiniCssExtractPlugin({
-            filename: 'styles.css',
+            filename: 'style.css',
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
@@ -257,6 +257,11 @@ if (appConfig.apache) {
             changeOrigin: true
         }
     };
+}
+
+if (appConfig.wordpress) {
+    config.output.path = __dirname;
+    config.devServer.contentBase = __dirname;
 }
 
 module.exports = config;

@@ -8,6 +8,7 @@
     "scripts": {
         "prestart": "yarn clean",
         "start": "webpack-dev-server --mode development",
+        "start:wp": "webpack --watch",
         "build": "webpack --mode production",
         "clean": "trash ./dist"
     },
