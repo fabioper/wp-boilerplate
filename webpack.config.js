@@ -264,8 +264,9 @@ if (appConfig.apache) {
 
 if (appConfig.wordpress) {
     config.output.path = __dirname;
+    config.output.publicPath = 'wp-content/';
     config.devServer.contentBase = __dirname;
-    config.output.filename = path.relative(__dirname, 'scripts/[name].js');
+    config.output.filename = 'scripts/[name].js';
 }
 
 module.exports = config;
