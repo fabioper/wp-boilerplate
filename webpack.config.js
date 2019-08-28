@@ -253,7 +253,7 @@ if (appConfig.apache) {
 
     config.devServer = {
         ...config.devServer,
-        contentBase: 'localhost/' + path.basename(__dirname),
+        // contentBase: 'localhost/' + path.basename(__dirname),
         writeToDisk: true,
         proxy: {
             '/': 'http://localhost/' + path.basename(__dirname) + '/dist',
