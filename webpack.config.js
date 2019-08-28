@@ -178,7 +178,7 @@ const config = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(),
+        
         new InjectPlugin(() => "import 'styles/main.scss';"),
         new MiniCssExtractPlugin({
             filename: 'style.css',
@@ -243,6 +243,10 @@ config.devServer = {
     open: true,
     historyApiFallback: true
 };
+
+if (!appConfig.wordpress) {
+    config.plugins.unshift(new CleanWebpackPlugin());
+}
 
 if (appConfig.apache) {
     // config.output.path = 'localhost/static-website/dist';
