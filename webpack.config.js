@@ -44,8 +44,8 @@ const config = {
     entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js'
-        // publicPath: '/'
+        filename: '[name].js',
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -178,6 +178,7 @@ const config = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new InjectPlugin(() => "import 'styles/main.scss';"),
         new MiniCssExtractPlugin({
             filename: 'style.css',
@@ -243,17 +244,11 @@ config.devServer = {
     historyApiFallback: true
 };
 
-if (!appConfig.wordpress) {
-    config.plugins.unshift(new CleanWebpackPlugin());
-}
-
 if (appConfig.apache) {
-    // config.output.path = 'localhost/static-website/dist';
     config.output.publicPath = 'localhost/' + path.basename(__dirname);
 
     config.devServer = {
         ...config.devServer,
-        // contentBase: 'localhost/' + path.basename(__dirname),
         writeToDisk: true,
         proxy: {
             '/': 'http://localhost/' + path.basename(__dirname) + '/dist',
@@ -263,9 +258,8 @@ if (appConfig.apache) {
 }
 
 if (appConfig.wordpress) {
-    config.output.path = __dirname;
-    // config.output.publicPath = 'wp-content/';
-    config.devServer.contentBase = __dirname;
+    config.output.path = path.resolve(__dirname, 'wordpress', 'wp-content', 'themes', appConfig.theme.text_domain);
+    config.devServer.contentBase = config.output.path;
     config.output.filename = 'scripts/[name].js';
 }
 
