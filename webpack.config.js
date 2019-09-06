@@ -260,7 +260,7 @@ if (appConfig.apache) {
 
 if (appConfig.wordpress) {
     config.output.publicPath = 'localhost/wordpress/' + path.basename(__dirname);
-    config.output.path = path.resolve(__dirname, 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
+    config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
     config.devServer.contentBase = config.output.path;
     config.output.filename = 'scripts/[name].js';
     config.devServer.proxy = {
