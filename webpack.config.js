@@ -265,8 +265,10 @@ if (appConfig.wordpress) {
     config.output.filename = 'scripts/[name].js';
     config.devServer.contentBase = config.output.path;
     config.devServer.proxy = {
-        '/': 'http://localhost/' + path.basename(__dirname) + '/wordpress/',
-        changeOrigin: true
+        '/': {
+            target: 'http://localhost/' + path.basename(__dirname) + '/wordpress/',
+            changeOrigin: true
+        }
     }
 }
 
