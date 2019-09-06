@@ -70,6 +70,7 @@ h1 {
 }
 
 .logo__wrapper {
+    transition: all .1s linear;
     &:after {
         content: '';
         display: block;
