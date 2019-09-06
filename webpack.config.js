@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const slug = require('slug');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -258,9 +259,14 @@ if (appConfig.apache) {
 }
 
 if (appConfig.wordpress) {
-    config.output.path = path.resolve(__dirname, 'wordpress', 'wp-content', 'themes', appConfig.theme.text_domain);
+    config.output.publicPath = 'localhost/wordpress/' + path.basename(__dirname);
+    config.output.path = path.resolve(__dirname, 'wordpress', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
     config.devServer.contentBase = config.output.path;
     config.output.filename = 'scripts/[name].js';
+    config.devServer.proxy = {
+        '/': 'http://localhost/wordpress/' + path.basename(__dirname) + '/dist',
+        changeOrigin: true
+    }
 }
 
 module.exports = config;
