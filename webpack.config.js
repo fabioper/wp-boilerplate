@@ -246,7 +246,7 @@ config.devServer = {
 };
 
 if (appConfig.apache) {
-    config.output.publicPath = 'localhost/' + path.basename(__dirname);
+    // config.output.publicPath = 'localhost/' + path.basename(__dirname);
 
     config.devServer = {
         ...config.devServer,
@@ -259,13 +259,18 @@ if (appConfig.apache) {
 }
 
 if (appConfig.wordpress) {
-    config.output.publicPath = 'localhost/wordpress/' + path.basename(__dirname);
+    config.devServer.publicPath = 'http://localhost/' + path.basename(__dirname) + '/wordpress/';
     config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
-    config.devServer.contentBase = config.output.path;
+    config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
+    config.devServer.publicPath = '/';
     config.output.filename = 'scripts/[name].js';
+    // config.devServer.contentBase = config.output.path;
+    config.devServer.contentBase = config.output.path;
     config.devServer.proxy = {
-        '/': 'http://localhost/wordpress/' + path.basename(__dirname) + '/dist',
-        changeOrigin: true
+        '/': {
+            target: 'http://localhost/' + path.basename(__dirname) + '/wordpress/',
+            changeOrigin: true
+        }
     }
 }
 
