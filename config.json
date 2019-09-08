@@ -5,8 +5,8 @@
     "background": "#ddd",
     "theme_color": "#333",
     "logo": "src/assets/images/beer-mug.svg",
-    "apache": true,
-    "wordpress": true,
+    "apache": false,
+    "wordpress": false,
     "theme": {
         "name": "My Site",
         "uri": "http://example.com",
