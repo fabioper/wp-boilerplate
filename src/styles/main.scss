@@ -28,7 +28,7 @@ html {
 body {
     font-size: 1.6rem;
     font-family: $font-family;
-    background-color: rgb(247, 244, 250);
+    background-color: #F9FBFF;
     background-attachment: fixed;
     background-blend-mode: lighten;
     color: rgb(93, 91, 97);
@@ -75,7 +75,7 @@ h1 {
         content: '';
         display: block;
         width: 10rem;
-        height: 1.2rem;
+        height: .8rem;
         background: rgb(228, 230, 219);
         border-radius: 50%;
         margin: 1.5rem auto 0;
@@ -103,17 +103,17 @@ code {
     padding: 0.2rem 0.8rem;
     background: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 10px rgb(239, 229, 241);
-    color: #ff5363;
+    box-shadow: 0 2px 10px rgb(235, 226, 219);
+    color: #FFA95F;
     font-size: 1.4rem;
     transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 a {
     text-decoration: none;
-
+    
     &:hover code {
-        background: #ff5363;
+        background: #FFA95F;
         color: #fff;
     }
 }
@@ -132,16 +132,16 @@ a {
 
 @keyframes floating_shadow {
     0% {
-        transform: scale(0.25);
-        background: rgb(225, 219, 230);
+        transform: scale(0.35);
+        background: rgba(230, 227, 219, 0.712);
     }
     50% {
         transform: scale(0.5);
-        background: rgb(215, 208, 218);
+        background: rgba(218, 215, 208, 0.712);
     }
     100% {
-        transform: scale(0.25);
-        background: rgb(225, 219, 230);
+        transform: scale(0.35);
+        background: rgba(230, 227, 219, 0.712);
     }
 }
 
@@ -153,10 +153,10 @@ h2 {
 
 blockquote {
     padding: 1.5rem 2rem;
-    background: rgba(226, 221, 233, 0.274);
+    background: rgb(241, 243, 247);
     color: rgb(109, 109, 109);
     margin: 2rem;
-    border-left: 3px solid #ff5363;
+    border-left: 3px solid #FFA95F;
     border-radius: 3px;
     max-width: 75rem;
     text-align: center;
