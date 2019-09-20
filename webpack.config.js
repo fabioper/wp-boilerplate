@@ -246,29 +246,27 @@ config.devServer = {
 };
 
 if (appConfig.apache) {
-    // config.output.publicPath = 'localhost/' + path.basename(__dirname);
-
     config.devServer = {
         ...config.devServer,
         writeToDisk: true,
         proxy: {
-            '/': 'http://localhost/' + path.basename(__dirname) + '/dist',
+            '/': 'http://localhost/' + path.basename(path.join(__dirname, '..')) + '/dist',
             changeOrigin: true
         }
     };
 }
 
 if (appConfig.wordpress) {
-    config.devServer.publicPath = 'http://localhost/' + path.basename(__dirname) + '/wordpress/';
+    config.devServer.publicPath = 'http://localhost/' + path.basename(path.join(__dirname, '..')) + '/';
     config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
     config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
     config.devServer.publicPath = '/';
     config.output.filename = 'scripts/[name].js';
-    // config.devServer.contentBase = config.output.path;
+    config.devServer.writeToDisk = true;
     config.devServer.contentBase = config.output.path;
     config.devServer.proxy = {
         '/': {
-            target: 'http://localhost/' + path.basename(__dirname) + '/wordpress/',
+            target: 'http://localhost/' + path.basename(path.join(__dirname, '..')) + '/',
             changeOrigin: true
         }
     }

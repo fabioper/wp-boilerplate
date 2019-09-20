@@ -61,9 +61,3 @@ typings/
 .next
 
 dist/
-
-*.html
-*.php
-*.css
-assets/
-scripts/
