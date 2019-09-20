@@ -1,22 +1,22 @@
-const path = require('path');
-const fs = require('fs');
-const slug = require('slug');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages');
-const InjectPlugin = require('webpack-inject-plugin').default;
+const path = require('path')
+const fs = require('fs')
+const slug = require('slug')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages')
+const InjectPlugin = require('webpack-inject-plugin').default
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const appConfig = require('./config.json');
+const appConfig = require('./config.json')
 
 const templatesPages = fs.readdirSync(
     path.resolve(__dirname, 'src', 'templates', 'pages'),
     'utf-8'
-);
+)
 
 const convertTemplatesTo = extension => templates =>
     templates.map(
@@ -29,16 +29,16 @@ const convertTemplatesTo = extension => templates =>
                     author: appConfig.author
                 }
             })
-    );
+    )
 
 const filterBy = (extension, templates) =>
-    templates.filter(template => path.extname(template) === extension);
+    templates.filter(template => path.extname(template) === extension)
 
 const transformHandlebarsToHTML = templates =>
-    convertTemplatesTo('.html')(filterBy('.hbs', templates));
+    convertTemplatesTo('.html')(filterBy('.hbs', templates))
 
 const transformPHP = templates =>
-    convertTemplatesTo('.php')(filterBy('.php', templates));
+    convertTemplatesTo('.php')(filterBy('.php', templates))
 
 const config = {
     target: 'web',
@@ -63,11 +63,7 @@ const config = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: [
-                                require('postcss-fixes')(),
-                                require('autoprefixer')(),
-                                require('cssnano')({ safe: true, calc: false })
-                            ]
+                            plugins: [require('postcss-fixes')(), require('autoprefixer')(), require('cssnano')({ safe: true, calc: false })]
                         }
                     },
                     {
@@ -100,6 +96,19 @@ const config = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.ts$/,
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    },
+                    'ts-loader'
+                ]
             },
             {
                 test: /\.(hbs|php)$/,
@@ -145,10 +154,10 @@ const config = {
                             limit: 10000,
                             name(file) {
                                 if (process.env.NODE_ENV !== 'production') {
-                                    return 'assets/img/[name].[ext]';
+                                    return 'assets/img/[name].[ext]'
                                 }
 
-                                return 'assets/img/[contenthash].[ext]';
+                                return 'assets/img/[contenthash].[ext]'
                             }
                         }
                     },
@@ -180,7 +189,7 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new InjectPlugin(() => "import 'styles/main.scss';"),
+        new InjectPlugin(() => 'import \'styles/main.scss\';'),
         new MiniCssExtractPlugin({
             filename: 'style.css',
             chunkFilename: '[id].css',
@@ -203,7 +212,15 @@ const config = {
         })
     ],
     resolve: {
-        extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
+        extensions: [
+            '.wasm',
+            '.mjs',
+            '.js',
+            '.jsx',
+            '.json',
+            '.ts',
+            '.tsx'
+        ],
         alias: {
             assets: path.resolve(__dirname, 'src/assets/'),
             styles: path.resolve(__dirname, 'src/styles/'),
@@ -234,7 +251,7 @@ const config = {
     optimization: {
         minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin({})]
     }
-};
+}
 
 config.devServer = {
     contentBase: path.join(__dirname, 'dist'),
@@ -243,33 +260,37 @@ config.devServer = {
     watchContentBase: true,
     open: true,
     historyApiFallback: true
-};
+}
+
+if (appConfig.typescript) {
+    config.entry = path.resolve(__dirname, 'src', 'scripts', 'app.ts')
+}
 
 if (appConfig.apache) {
     config.devServer = {
         ...config.devServer,
         writeToDisk: true,
         proxy: {
-            '/': 'http://localhost/' + path.basename(path.join(__dirname, '..')) + '/dist',
-            changeOrigin: true
-        }
-    };
-}
-
-if (appConfig.wordpress) {
-    config.devServer.publicPath = 'http://localhost/' + path.basename(path.join(__dirname, '..')) + '/';
-    config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
-    config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }));
-    config.devServer.publicPath = '/';
-    config.output.filename = 'scripts/[name].js';
-    config.devServer.writeToDisk = true;
-    config.devServer.contentBase = config.output.path;
-    config.devServer.proxy = {
-        '/': {
-            target: 'http://localhost/' + path.basename(path.join(__dirname, '..')) + '/',
+            '/': `http://localhost/${path.basename(path.join(__dirname, '..'))}/dist`,
             changeOrigin: true
         }
     }
 }
 
-module.exports = config;
+if (appConfig.wordpress) {
+    config.devServer.publicPath = `http://localhost/${path.basename(path.join(__dirname, '..'))}/`
+    config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
+    config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
+    config.devServer.publicPath = '/'
+    config.output.filename = 'scripts/[name].js'
+    config.devServer.writeToDisk = true
+    config.devServer.contentBase = config.output.path
+    config.devServer.proxy = {
+        '/': {
+            target: `http://localhost/${path.basename(path.join(__dirname, '..'))}/`,
+            changeOrigin: true
+        }
+    }
+}
+
+module.exports = config

@@ -7,7 +7,7 @@
     "logo": "src/assets/images/logo.svg",
     "apache": false,
     "wordpress": false,
-    "typescript": false,
+    "typescript": true,
     "theme": {
         "name": "My Site",
         "uri": "http://example.com",
