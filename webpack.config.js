@@ -266,7 +266,7 @@ if (appConfig.typescript) {
     config.entry = path.resolve(__dirname, 'src', 'scripts', 'app.ts')
 }
 
-if (appConfig.apache) {
+if (appConfig.server === 'apache') {
     config.devServer = {
         ...config.devServer,
         writeToDisk: true,

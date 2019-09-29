@@ -5,7 +5,7 @@
     "background": "#ddd",
     "theme_color": "#333",
     "logo": "src/assets/images/logo.svg",
-    "apache": false,
+    "server": "",
     "wordpress": false,
     "typescript": true,
     "theme": {
