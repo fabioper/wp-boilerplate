@@ -74,7 +74,7 @@ const config = {
     Theme Name: ${appConfig.theme.name}
     Theme URI: ${appConfig.theme.uri}
     Author: ${appConfig.theme.author}
-    Author URI: ${appConfig.theme.author_uri}
+    Author URI: ${appConfig.theme.authorUri}
     Description: ${appConfig.theme.description}
     Version: ${appConfig.theme.version}
     License: ${appConfig.theme.license}
@@ -266,7 +266,7 @@ if (appConfig.typescript) {
     config.entry = path.resolve(__dirname, 'src', 'scripts', 'app.ts')
 }
 
-if (appConfig.apache) {
+if (appConfig.server === 'apache') {
     config.devServer = {
         ...config.devServer,
         writeToDisk: true,
@@ -288,7 +288,7 @@ if (appConfig.wordpress) {
     config.devServer.proxy = {
         '/': {
             target: `http://localhost/${path.basename(path.join(__dirname, '..'))}/`,
-            changeOrigin: false
+            changeOrigin: true
         }
     }
 }
