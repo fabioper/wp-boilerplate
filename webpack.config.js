@@ -1,3 +1,4 @@
+/* eslint-disable func-style */
 const path = require('path')
 const fs = require('fs')
 const slug = require('slug')
@@ -17,28 +18,6 @@ const templatesPages = fs.readdirSync(
     path.resolve(__dirname, 'src', 'templates', 'pages'),
     'utf-8'
 )
-
-const convertTemplatesTo = extension => templates =>
-    templates.map(
-        template =>
-            new HtmlWebpackPlugin({
-                filename: template.replace(/\.(.*)/, extension),
-                template: path.resolve(templatesPath, template),
-                meta: {
-                    description: appConfig.description,
-                    author: appConfig.author
-                }
-            })
-    )
-
-const filterBy = (extension, templates) =>
-    templates.filter(template => path.extname(template) === extension)
-
-const transformHandlebarsToHTML = templates =>
-    convertTemplatesTo('.html')(filterBy('.hbs', templates))
-
-const transformPHP = templates =>
-    convertTemplatesTo('.php')(filterBy('.php', templates))
 
 const config = {
     target: 'web',
@@ -256,7 +235,7 @@ const config = {
 config.devServer = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 3000,
+    port: 8080,
     watchContentBase: true,
     open: true,
     historyApiFallback: true
@@ -291,6 +270,34 @@ if (appConfig.wordpress) {
             changeOrigin: true
         }
     }
+}
+
+function convertTemplatesTo(extension) {
+    return templates => (
+        templates.map(
+            template =>
+                new HtmlWebpackPlugin({
+                    filename: template.replace(/\.(.*)/, extension),
+                    template: path.resolve(templatesPath, template),
+                    meta: {
+                        description: appConfig.description,
+                        author: appConfig.author
+                    }
+                })
+        )
+    )
+}
+
+function filterBy(extension, templates) {
+    return templates.filter(template => path.extname(template) === extension)
+}
+
+function transformHandlebarsToHTML(templates) {
+    return convertTemplatesTo('.html')(filterBy('.hbs', templates))
+}
+
+function transformPHP(templates) {
+    return convertTemplatesTo('.php')(filterBy('.php', templates))
 }
 
 module.exports = config
