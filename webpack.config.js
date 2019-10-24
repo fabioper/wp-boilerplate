@@ -90,7 +90,7 @@ const config = {
                 ]
             },
             {
-                test: /\.(hbs|php)$/,
+                test: /\.(hbs|php|html)$/,
                 use: [
                     {
                         loader: 'handlebars-loader',
@@ -174,8 +174,9 @@ const config = {
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
-        ...transformHandlebarsToHTML(templatesPages),
-        ...transformPHP(templatesPages),
+        ...handleHbs(templatesPages),
+        ...handlePhp(templatesPages),
+        ...handleHtml(templatesPages),
         new FaviconsWebpackPlugin({
             devMode: 'webapp',
             logo: path.resolve(__dirname, appConfig.logo),
@@ -260,9 +261,7 @@ if (appConfig.wordpress) {
     config.devServer.publicPath = `http://localhost/${path.basename(path.join(__dirname, '..'))}/`
     config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
     config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
-    // config.devServer.publicPath = '/'
     config.output.filename = 'scripts/[name].js'
-    // config.devServer.contentBase = config.output.path;
     config.devServer.contentBase = config.output.path
     config.devServer.proxy = {
         '/': {
@@ -292,11 +291,15 @@ function filterBy(extension, templates) {
     return templates.filter(template => path.extname(template) === extension)
 }
 
-function transformHandlebarsToHTML(templates) {
+function handleHbs(templates) {
     return convertTemplatesTo('.html')(filterBy('.hbs', templates))
 }
 
-function transformPHP(templates) {
+function handleHtml(templates) {
+    return convertTemplatesTo('.html')(templates)
+}
+
+function handlePhp(templates) {
     return convertTemplatesTo('.php')(filterBy('.php', templates))
 }
 
