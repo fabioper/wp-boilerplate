@@ -6,7 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages')
+const templatesPath = path.resolve(__dirname, 'src', 'templates')
 const InjectPlugin = require('webpack-inject-plugin').default
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -14,7 +14,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const appConfig = require('./config.json')
 
 const templatesPages = fs.readdirSync(
-    path.resolve(__dirname, 'src', 'templates', 'pages'),
+    path.resolve(__dirname, 'src', 'templates'),
     'utf-8'
 )
 
@@ -35,7 +35,7 @@ const filterBy = (extension, templates) =>
     templates.filter(template => path.extname(template) === extension)
 
 const transformHandlebarsToHTML = templates =>
-    convertTemplatesTo('.html')(filterBy('.hbs', templates))
+    convertTemplatesTo('.html')(templatesPages)
 
 const transformPHP = templates =>
     convertTemplatesTo('.php')(filterBy('.php', templates))
@@ -111,7 +111,7 @@ const config = {
                 ]
             },
             {
-                test: /\.(hbs|php)$/,
+                test: /\.(hbs|php|html)$/,
                 use: [
                     {
                         loader: 'handlebars-loader',
@@ -256,7 +256,7 @@ const config = {
 config.devServer = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 3000,
+    port: 8080,
     watchContentBase: true,
     open: true,
     historyApiFallback: true
@@ -281,9 +281,7 @@ if (appConfig.wordpress) {
     config.devServer.publicPath = `http://localhost/${path.basename(path.join(__dirname, '..'))}/`
     config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
     config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
-    // config.devServer.publicPath = '/'
     config.output.filename = 'scripts/[name].js'
-    // config.devServer.contentBase = config.output.path;
     config.devServer.contentBase = config.output.path
     config.devServer.proxy = {
         '/': {
