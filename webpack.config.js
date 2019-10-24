@@ -16,6 +16,19 @@ const appConfig = require('./config.json')
 const templatesPagesPath = path.resolve(__dirname, 'src', 'templates', 'pages')
 const templatesPages = fs.readdirSync(templatesPagesPath, 'utf-8')
 
+const convertTemplatesTo = extension => templates =>
+    templates.map(
+        template =>
+            new HtmlWebpackPlugin({
+                filename: template.replace(/\.(.*)/, extension),
+                template: path.resolve(templatesPagesPath, template),
+                meta: {
+                    description: appConfig.description,
+                    author: appConfig.author
+                }
+            })
+    )
+
 const config = {
     target: 'web',
     entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
