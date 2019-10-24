@@ -7,17 +7,14 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const templatesPath = path.resolve(__dirname, 'src', 'templates', 'pages')
 const InjectPlugin = require('webpack-inject-plugin').default
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const appConfig = require('./config.json')
 
-const templatesPages = fs.readdirSync(
-    path.resolve(__dirname, 'src', 'templates', 'pages'),
-    'utf-8'
-)
+const templatesPagesPath = path.resolve(__dirname, 'src', 'templates', 'pages')
+const templatesPages = fs.readdirSync(templatesPagesPath, 'utf-8')
 
 const config = {
     target: 'web',
@@ -277,7 +274,7 @@ function convertTemplatesTo(extension) {
             template =>
                 new HtmlWebpackPlugin({
                     filename: template.replace(/\.(.*)/, extension),
-                    template: path.resolve(templatesPath, template),
+                    template: path.resolve(templatesPagesPath, template),
                     meta: {
                         description: appConfig.description,
                         author: appConfig.author
