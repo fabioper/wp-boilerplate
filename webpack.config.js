@@ -1,27 +1,27 @@
 /* eslint-disable func-style */
 const path = require('path')
 const fs = require('fs')
-const slug = require('slug')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const InjectPlugin = require('webpack-inject-plugin').default
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const appConfig = require('./config.json')
+const rootFolderName = path.basename(path.resolve(__dirname, '..', '..'))
 
-const templatesPagesPath = path.resolve(__dirname, 'src', 'templates', 'pages')
-const templatesPages = fs.readdirSync(templatesPagesPath, 'utf-8')
+const phpFilesPath = path.resolve(__dirname, 'src', 'pages')
+const phpFiles = fs.readdirSync(phpFilesPath, 'utf-8')
+    .filter(content => path.extname(content).includes('php'))
 
 const config = {
     target: 'web',
     entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: __dirname,
         filename: '[name].js',
-        publicPath: '/'
+        publicPath: path.join('wp-content', 'themes', path.basename(__dirname))
     },
     module: {
         rules: [
@@ -46,16 +46,13 @@ const config = {
                         options: {
                             data: `
 /*!
-    Theme Name: ${appConfig.theme.name}
-    Theme URI: ${appConfig.theme.uri}
-    Author: ${appConfig.theme.author}
-    Author URI: ${appConfig.theme.authorUri}
-    Description: ${appConfig.theme.description}
-    Version: ${appConfig.theme.version}
-    License: ${appConfig.theme.license}
-    License URI: ${appConfig.theme.license_uri}
-    Text Domain: ${appConfig.theme.text_domain}
-    Tags: ${appConfig.theme.tags}
+    Theme Name: ${appConfig.name}
+    Theme URI: ${appConfig.uri}
+    Author: ${appConfig.author}
+    Author URI: ${appConfig.authorUri}
+    Description: ${appConfig.description}
+    Version: ${appConfig.version}
+    Tags: ${appConfig.tags}
 */
 `
                         }
@@ -73,25 +70,9 @@ const config = {
                 }
             },
             {
-                test: /\.ts$/,
-                exclude: /(node_modules|bower_components)/,
+                test: /\.php$/,
                 use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    },
-                    'ts-loader'
-                ]
-            },
-            {
-                test: /\.(hbs|php|html)$/,
-                use: [
-                    {
-                        loader: 'handlebars-loader',
-                        options: { inlineRequires: '/assets/images' }
-                    },
+                    { loader: 'html-loader' },
                     {
                         loader: 'markup-inline-loader',
                         options: {
@@ -109,14 +90,6 @@ const config = {
                                 ]
                             }
                         }
-                    },
-                    {
-                        loader: 'string-replace-loader',
-                        options: {
-                            search: '.hbs',
-                            replace: '.html',
-                            flags: ''
-                        }
                     }
                 ]
             },
@@ -127,7 +100,7 @@ const config = {
                         loader: 'url-loader',
                         options: {
                             limit: 10000,
-                            name(file) {
+                            name() {
                                 if (process.env.NODE_ENV !== 'production') {
                                     return 'assets/img/[name].[ext]'
                                 }
@@ -164,28 +137,13 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new InjectPlugin(() => 'import \'styles/main.scss\';'),
+        new InjectPlugin(() => 'import \'Styles/main.scss\';'),
         new MiniCssExtractPlugin({
             filename: 'style.css',
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
-        ...handleHbs(templatesPages),
-        ...handlePhp(templatesPages),
-        ...handleHtml(templatesPages),
-        new FaviconsWebpackPlugin({
-            devMode: 'webapp',
-            logo: path.resolve(__dirname, appConfig.logo),
-            favicons: {
-                appName: appConfig.name,
-                appDescription: appConfig.description,
-                background: appConfig.background,
-                theme_color: appConfig.theme_color,
-                icons: {
-                    ...appConfig.favicons
-                }
-            }
-        })
+        ...handlePhp(phpFiles)
     ],
     resolve: {
         extensions: [
@@ -198,9 +156,7 @@ const config = {
             '.tsx'
         ],
         alias: {
-            assets: path.resolve(__dirname, 'src/assets/'),
-            styles: path.resolve(__dirname, 'src/styles/'),
-            scripts: path.resolve(__dirname, 'src/scripts/')
+            Styles: path.resolve(__dirname, 'src', 'styles')
         }
     },
     stats: {
@@ -230,73 +186,36 @@ const config = {
 }
 
 config.devServer = {
-    contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 8080,
     watchContentBase: true,
     open: true,
-    historyApiFallback: true
-}
-
-if (appConfig.typescript) {
-    config.entry = path.resolve(__dirname, 'src', 'scripts', 'app.ts')
-}
-
-if (appConfig.server === 'apache') {
-    config.devServer = {
-        ...config.devServer,
-        writeToDisk: true,
-        proxy: {
-            '/': `http://localhost/${path.basename(path.join(__dirname, '..'))}/dist`,
-            changeOrigin: true
-        }
-    }
-}
-
-if (appConfig.wordpress) {
-    config.devServer.publicPath = `http://localhost/${path.basename(path.join(__dirname, '..'))}/`
-    config.output.path = path.resolve(__dirname, '..', 'wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
-    config.output.publicPath = path.join('wp-content', 'themes', slug(appConfig.theme.name, { lower: true }))
-    config.output.filename = 'scripts/[name].js'
-    config.devServer.contentBase = config.output.path
-    config.devServer.proxy = {
+    historyApiFallback: true,
+    writeToDisk: true,
+    proxy: {
         '/': {
-            target: `http://localhost/${path.basename(path.join(__dirname, '..'))}/`,
+            target: `http://localhost/${rootFolderName}/`,
             changeOrigin: true
         }
-    }
+    },
+    publicPath: `http://localhost/${rootFolderName}/`,
+    contentBase: config.output.path
 }
 
-function convertTemplatesTo(extension) {
-    return templates => (
-        templates.map(
-            template =>
-                new HtmlWebpackPlugin({
-                    filename: template.replace(/\.(.*)/, extension),
-                    template: path.resolve(templatesPagesPath, template),
-                    meta: {
-                        description: appConfig.description,
-                        author: appConfig.author
-                    }
-                })
-        )
-    )
-}
-
-function filterBy(extension, templates) {
-    return templates.filter(template => path.extname(template) === extension)
-}
-
-function handleHbs(templates) {
-    return convertTemplatesTo('.html')(filterBy('.hbs', templates))
-}
-
-function handleHtml(templates) {
-    return convertTemplatesTo('.html')(templates)
-}
+console.log(`http://localhost/${rootFolderName}/`)
 
 function handlePhp(templates) {
-    return convertTemplatesTo('.php')(filterBy('.php', templates))
+    return templates.map(template =>
+        new HtmlWebpackPlugin({
+            filename: template.replace(/\.(.*)/, '.php'),
+            template: path.resolve(phpFilesPath, template),
+            meta: {
+                description: appConfig.description,
+                author: appConfig.author
+            },
+            inject: false
+        })
+    )
 }
 
 module.exports = config
