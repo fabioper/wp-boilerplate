@@ -6,22 +6,24 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const InjectPlugin = require('webpack-inject-plugin').default
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const appConfig = require('./config.json')
-const rootFolderName = path.basename(path.resolve(__dirname, '..', '..'))
+const rootFolderName = path.basename(path.resolve(__dirname, '..', '..', '..'))
 
 const phpFilesPath = path.resolve(__dirname, 'src', 'pages')
-const phpFiles = fs.readdirSync(phpFilesPath, 'utf-8')
-    .filter(content => path.extname(content).includes('php'))
+const phpFiles = fs
+    .readdirSync(phpFilesPath, 'utf-8')
+    .filter(content => {
+        return path.extname(content).includes('php')
+    })
 
 const config = {
     target: 'web',
-    entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
+    entry: path.resolve(__dirname, 'src', 'scripts', 'main.js'),
     output: {
         path: __dirname,
-        filename: '[name].js',
-        publicPath: path.join('wp-content', 'themes', path.basename(__dirname))
+        filename: 'assets/scripts/[name].js',
+        publicPath: path.join('wp-content', 'themes', rootFolderName)
     },
     module: {
         rules: [
@@ -136,7 +138,6 @@ const config = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new InjectPlugin(() => 'import \'Styles/main.scss\';'),
         new MiniCssExtractPlugin({
             filename: 'style.css',
@@ -182,27 +183,24 @@ const config = {
     devtool: 'inline-source-map',
     optimization: {
         minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin({})]
+    },
+    devServer: {
+        compress: true,
+        port: 3000,
+        open: true,
+        proxy: {
+            '/': {
+                target: `http://localhost/${rootFolderName}/`,
+                changeOrigin: true
+            }
+        },
+        publicPath: `http://localhost/${rootFolderName}/`,
+        historyApiFallback: true,
+        writeToDisk: true,
+        contentBase: path.join('src', 'pages'),
+        watchContentBase: true
     }
 }
-
-config.devServer = {
-    compress: true,
-    port: 8080,
-    watchContentBase: true,
-    open: true,
-    historyApiFallback: true,
-    writeToDisk: true,
-    proxy: {
-        '/': {
-            target: `http://localhost/${rootFolderName}/`,
-            changeOrigin: true
-        }
-    },
-    publicPath: `http://localhost/${rootFolderName}/`,
-    contentBase: config.output.path
-}
-
-console.log(`http://localhost/${rootFolderName}/`)
 
 function handlePhp(templates) {
     return templates.map(template =>
