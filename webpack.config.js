@@ -1,29 +1,28 @@
-/* eslint-disable func-style */
 const path = require('path')
 const fs = require('fs')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const InjectPlugin = require('webpack-inject-plugin').default
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 const appConfig = require('./config.json')
+
 const rootFolderName = path.basename(path.resolve(__dirname, '..', '..', '..'))
 
 const phpFilesPath = path.resolve(__dirname, 'src', 'pages')
-const phpFiles = fs
-    .readdirSync(phpFilesPath, 'utf-8')
-    .filter(content => {
-        return path.extname(content).includes('php')
-    })
+
+const phpFiles = fs.readdirSync(phpFilesPath, 'utf-8').filter(content => {
+    return path.extname(content).includes('php')
+})
 
 const config = {
-    target: 'web',
     entry: path.resolve(__dirname, 'src', 'scripts', 'main.js'),
     output: {
         path: __dirname,
         filename: 'assets/scripts/[name].js',
-        publicPath: path.join('wp-content', 'themes', rootFolderName)
+        publicPath: path.join('wp-content', 'themes', path.basename(__dirname))
     },
     module: {
         rules: [
@@ -62,16 +61,6 @@ const config = {
                 ]
             },
             {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-            },
-            {
                 test: /\.php$/,
                 use: [
                     { loader: 'html-loader' },
@@ -80,15 +69,9 @@ const config = {
                         options: {
                             svgo: {
                                 plugins: [
-                                    {
-                                        removeTitle: true
-                                    },
-                                    {
-                                        removeUselessStrokeAndFill: false
-                                    },
-                                    {
-                                        removeUnknownsAndDefaults: false
-                                    }
+                                    { removeTitle: true },
+                                    { removeUselessStrokeAndFill: false },
+                                    { removeUnknownsAndDefaults: false }
                                 ]
                             }
                         }
@@ -102,13 +85,7 @@ const config = {
                         loader: 'url-loader',
                         options: {
                             limit: 10000,
-                            name() {
-                                if (process.env.NODE_ENV !== 'production') {
-                                    return 'assets/img/[name].[ext]'
-                                }
-
-                                return 'assets/img/[contenthash].[ext]'
-                            }
+                            name: 'assets/img/[name].[ext]'
                         }
                     },
                     {
@@ -122,9 +99,7 @@ const config = {
                                 quality: '65-90',
                                 speed: 4
                             },
-                            gifsicle: {
-                                interlaced: false
-                            },
+                            gifsicle: { interlaced: false },
                             webp: { quality: 75 },
                             svgo: {
                                 removeTitle: true,
@@ -144,62 +119,27 @@ const config = {
             chunkFilename: '[id].css',
             ignoreOrder: false
         }),
-        ...handlePhp(phpFiles)
+        ...handlePhp(phpFiles),
+        new BrowserSyncPlugin({
+            port: 3000,
+            // host: 'localhost',
+            files: '*.php',
+            // injectChanges: true,
+            // server: { baseDir: ['public'] }
+            proxy: `http://localhost/${rootFolderName}/`
+        })
     ],
     resolve: {
-        extensions: [
-            '.wasm',
-            '.mjs',
-            '.js',
-            '.jsx',
-            '.json',
-            '.ts',
-            '.tsx'
-        ],
-        alias: {
-            Styles: path.resolve(__dirname, 'src', 'styles')
-        }
+        alias: { Styles: path.resolve(__dirname, 'src', 'styles') },
+        extensions: ['.js', '.json'],
     },
-    stats: {
-        all: false,
-        modules: true,
-        maxModules: 0,
-        errors: true,
-        warnings: true,
-        moduleTrace: true,
-        assetsSort: 'field',
-        cached: true,
-        colors: true,
-        logging: 'info',
-        modulesSort: 'field',
-        outputPath: true,
-        source: true,
-        publicPath: true,
-        entrypoints: true,
-        builtAt: true,
-        errorDetails: true,
-        assets: true
-    },
-    devtool: 'inline-source-map',
     optimization: {
         minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin({})]
     },
-    devServer: {
-        compress: true,
-        port: 3000,
-        open: true,
-        proxy: {
-            '/': {
-                target: `http://localhost/${rootFolderName}/`,
-                changeOrigin: true
-            }
-        },
-        publicPath: `http://localhost/${rootFolderName}/`,
-        historyApiFallback: true,
-        writeToDisk: true,
-        contentBase: path.join('src', 'pages'),
-        watchContentBase: true
-    }
+    devtool: 'inline-source-map',
+    watch: true,
+    devServer: { writeToDisk: true },
+    target: 'web'
 }
 
 function handlePhp(templates) {
